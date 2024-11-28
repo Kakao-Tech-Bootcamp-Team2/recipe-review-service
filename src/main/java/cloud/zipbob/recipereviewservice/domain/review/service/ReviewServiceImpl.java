@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @Transactional
@@ -42,14 +43,16 @@ public class ReviewServiceImpl implements ReviewService{
     }
 
     @Override
-    public void deleteReview(ReviewRequest request) {
+    public void deleteReview(ReviewRequest request, Long memberId) {
         Review review = reviewRepository.findById(request.reviewId()).orElseThrow(() -> new ReviewException(ReviewExceptionType.REVIEW_NOT_FOUND));
+        if(!Objects.equals(review.getMemberId(), memberId)) throw new ReviewException(ReviewExceptionType.REVIEW_OWNER_MISMATCH);
         reviewRepository.delete(review);
     }
 
     @Override
-    public ReviewResponse updateReview(ReviewUpdateRequest request) {
+    public ReviewResponse updateReview(ReviewUpdateRequest request, Long memberId) {
         Review review = reviewRepository.findById(request.reviewId()).orElseThrow(() -> new ReviewException(ReviewExceptionType.REVIEW_NOT_FOUND));
+        if(!Objects.equals(review.getMemberId(), memberId)) throw new ReviewException(ReviewExceptionType.REVIEW_OWNER_MISMATCH);
         review.updateReview(request.content(), request.rating());
         reviewRepository.save(review);
         return ReviewResponse.of(review);

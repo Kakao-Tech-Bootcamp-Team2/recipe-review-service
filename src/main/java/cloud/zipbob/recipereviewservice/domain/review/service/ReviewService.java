@@ -13,7 +13,7 @@ public interface ReviewService {
 
     GetReviewsResponse getReviewsByMember(GetReviewsByMemberRequest request);
 
-    void deleteReview(ReviewRequest request);
+    void deleteReview(ReviewRequest request, Long memberId);
 
-    ReviewResponse updateReview(ReviewUpdateRequest request);
+    ReviewResponse updateReview(ReviewUpdateRequest request, Long memberId);
 }

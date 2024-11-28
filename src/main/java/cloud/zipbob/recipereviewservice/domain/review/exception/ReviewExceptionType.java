@@ -7,7 +7,8 @@ public enum ReviewExceptionType implements BaseExceptionType {
     REVIEW_NOT_FOUND("RV001", "해당 리뷰는 존재하지 않습니다.", HttpStatus.NOT_FOUND),
     REVIEW_NOT_FOUND_FOR_RECIPE("RV002", "해당 레시피에 리뷰는 존재하지 않습니다.", HttpStatus.NOT_FOUND),
     REVIEW_NOT_FOUND_FOR_MEMBER("RV003", "해당 사용자의 리뷰는 존재하지 않습니다.", HttpStatus.NOT_FOUND),
-    REVIEW_ALREADY_EXIST("RV004", "이미 해당 리뷰가 존재합니다.", HttpStatus.CONFLICT);
+    REVIEW_ALREADY_EXIST("RV004", "이미 해당 리뷰가 존재합니다.", HttpStatus.CONFLICT),
+    REVIEW_OWNER_MISMATCH("RV005", "리뷰 작성자와 리뷰 업데이트/삭제 요청자가 일치하지 않습니다.", HttpStatus.FORBIDDEN);
 
     private final String errorCode;
     private final String errorMessage;
