@@ -38,12 +38,12 @@ public class ReviewController {
 
     @DeleteMapping("")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteReview(final @RequestBody ReviewRequest request, @RequestHeader("memberId") Long memberId){
+    public void deleteReview(final @RequestBody ReviewRequest request, @RequestHeader("X-Member-Id") Long memberId){
         reviewService.deleteReview(request, memberId);
     }
 
     @PatchMapping("")
-    public ResponseEntity<ReviewResponse> updateReview(final @Valid @RequestBody ReviewUpdateRequest request, @RequestHeader("memberId") Long memberId){
+    public ResponseEntity<ReviewResponse> updateReview(final @Valid @RequestBody ReviewUpdateRequest request, @RequestHeader("X-Member-Id") Long memberId){
         ReviewResponse response = reviewService.updateReview(request, memberId);
         return Responder.success(response);
     }
