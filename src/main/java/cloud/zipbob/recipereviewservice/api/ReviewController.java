@@ -19,8 +19,8 @@ public class ReviewController {
     private final ReviewService reviewService;
 
     @PostMapping("")
-    public ResponseEntity<ReviewResponse> createReview(final @Valid @RequestBody ReviewCreateRequest request){
-        ReviewResponse response = reviewService.createReview(request);
+    public ResponseEntity<ReviewResponse> createReview(final @Valid @RequestBody ReviewCreateRequest request, @RequestHeader("X-Member-Id") Long authenticatedMemberId){
+        ReviewResponse response = reviewService.createReview(request, authenticatedMemberId);
         return Responder.success(response, HttpStatus.CREATED);
     }
 
@@ -31,20 +31,20 @@ public class ReviewController {
     }
 
     @GetMapping("/member")
-    public ResponseEntity<GetReviewsResponse> getReviewsByMember(final @RequestBody GetReviewsByMemberRequest request){
-        GetReviewsResponse response = reviewService.getReviewsByMember(request);
+    public ResponseEntity<GetReviewsResponse> getReviewsByMember(final @RequestBody GetReviewsByMemberRequest request, @RequestHeader("X-Member-Id") Long authenticatedMemberId){
+        GetReviewsResponse response = reviewService.getReviewsByMember(request, authenticatedMemberId);
         return Responder.success(response);
     }
 
     @DeleteMapping("")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteReview(final @RequestBody ReviewRequest request, @RequestHeader("X-Member-Id") Long memberId){
-        reviewService.deleteReview(request, memberId);
+    public void deleteReview(final @RequestBody ReviewRequest request, @RequestHeader("X-Member-Id") Long authenticatedMemberId){
+        reviewService.deleteReview(request, authenticatedMemberId);
     }
 
     @PatchMapping("")
-    public ResponseEntity<ReviewResponse> updateReview(final @Valid @RequestBody ReviewUpdateRequest request, @RequestHeader("X-Member-Id") Long memberId){
-        ReviewResponse response = reviewService.updateReview(request, memberId);
+    public ResponseEntity<ReviewResponse> updateReview(final @Valid @RequestBody ReviewUpdateRequest request, @RequestHeader("X-Member-Id") Long authenticatedMemberId){
+        ReviewResponse response = reviewService.updateReview(request, authenticatedMemberId);
         return Responder.success(response);
     }
 

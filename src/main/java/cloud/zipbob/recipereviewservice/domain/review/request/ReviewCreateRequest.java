@@ -1,16 +1,16 @@
 package cloud.zipbob.recipereviewservice.domain.review.request;
 
 import cloud.zipbob.recipereviewservice.domain.review.Review;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.DecimalMax;
+import jakarta.validation.constraints.DecimalMin;
 
 public record ReviewCreateRequest(
         Long memberId,
         String recipeId,
         String content,
-        @Min(value = 1, message = "Rating must be between 1 and 5")
-        @Max(value = 5, message = "Rating must be between 1 and 5")
-        int rating,
+        @DecimalMin(value = "1.0", message = "Rating must be at least 1.0")
+        @DecimalMax(value = "5.0", message = "Rating must be no more than 5.0")
+        float rating,
         String authorNickname
 ) {
     public Review toEntity() {

@@ -21,14 +21,14 @@ public class Review {
     private String recipeId;
     private String content;
     private String authorNickname;
-    private int rating; //별점
+    private float rating; //별점
 
     @CreatedDate
     private LocalDateTime createdDate;
     @LastModifiedDate
     private LocalDateTime updatedDate;
 
-    public void updateReview(String content, int rating){
+    public void updateReview(String content, float rating){
         this.content = content;
         this.rating = rating;
     }
