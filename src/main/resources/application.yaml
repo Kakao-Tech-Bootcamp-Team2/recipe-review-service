@@ -1,18 +1,24 @@
-server:
-  port: 9002
-
 spring:
-  application:
-    name: recipe-review-service
   profiles:
     active: local, testdata
   config:
-    import: "configserver:"
-  rabbitmq:
-    host: ${RABBITMQ_HOST}
-    port: ${RABBITMQ_PORT}
-    username: ${RABBITMQ_USERNAME}
-    password: ${RABBITMQ_PASSWORD}
+    import: ""
+
+#  rabbitmq:
+#    host: ${rabbitmq_host}
+#    port: ${rabbitmq_port}
+#    username: ${rabbitmq_username}
+#    password: ${rabbitmq_password}
+
+  data:
+    mongodb:
+      authentication-database: admin
+      host: ${mongodb_host}
+      port: ${mongodb_port}
+      database: ${mongodb_database}
+      username: ${mongodb_username}
+      password: ${mongodb_password}
+
   cloud:
     config:
       uri: http://localhost:8888
@@ -24,6 +30,7 @@ spring:
         initial-interval: 1000
         max-interval: 2000
         multiplier: 1.1
+      enabled: false
 
 management:
   endpoints:
