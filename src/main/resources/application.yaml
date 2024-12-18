@@ -12,12 +12,7 @@ spring:
 
   data:
     mongodb:
-      authentication-database: admin
-      host: ${mongodb_host}
-      port: ${mongodb_port}
-      database: ${mongodb_database}
-      username: ${mongodb_username}
-      password: ${mongodb_password}
+      uri: ${mongodb_uri}
 
   cloud:
     config:
