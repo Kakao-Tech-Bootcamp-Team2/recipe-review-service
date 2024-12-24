@@ -112,3 +112,19 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Publish container image
         run: docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.get_version.outputs.version }}
+      # 새로운 버전 생성 후 매니페스트 업데이트
+      - name: Update Kubernetes manifests
+        run: |
+          # 매니페스트 레포 클론
+          git clone https://x-access-token:${{ secrets.PAT_TOKEN }}@github.com/Kakao-Tech-Bootcamp-Team2/zipbob-deployment.git
+          cd zipbob-deployment
+          
+          # 이미지 태그 업데이트
+          sed -i "s|image: ghcr.io/kakao-tech-bootcamp-team2/recipe-review-service.*|image: ghcr.io/kakao-tech-bootcamp-team2/recipe-review-service:${{ steps.get_version.outputs.version }}|" k8s/applications/production/recipe-review-service.yaml
+          
+          # 변경사항 커밋 & 푸시
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add .
+          git commit -m "Update recipe-review-service to version ${{ steps.get_version.outputs.version }}"
+          git push
