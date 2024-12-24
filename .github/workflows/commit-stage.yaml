@@ -63,15 +63,24 @@ jobs:
       - name: Get Version
         id: get_version
         run: |
-          VERSION=$(curl -s https://api.github.com/repos/${{ github.repository }}/packages/container/recipe-review-service/versions | jq '.[0].metadata.container.tags[0]' -r)
-          if [ "$VERSION" = "null" ] || [ -z "$VERSION" ]; then
+          VERSIONS=$(curl -s -H "Accept: application/vnd.github.v3+json" \
+            "https://api.github.com/orgs/Kakao-Tech-Bootcamp-Team2/packages/container/recipe-review-service/versions")
+          
+          LATEST_VERSION=$(echo $VERSIONS | jq -r '.[0].metadata.container.tags[]' 2>/dev/null | grep -E '^[0-9]+\.[0-9]+\.[0-9]+$' | head -n1)
+          
+          if [ -z "$LATEST_VERSION" ]; then
             echo "version=0.0.1" >> $GITHUB_OUTPUT
+            echo "Starting with version 0.0.1"
           else
-            MAJOR_MINOR=$(echo $VERSION | cut -d. -f1,2)
-            PATCH=$(echo $VERSION | cut -d. -f3)
+            MAJOR_MINOR=$(echo $LATEST_VERSION | cut -d. -f1,2)
+            PATCH=$(echo $LATEST_VERSION | cut -d. -f3)
             NEW_PATCH=$((PATCH + 1))
-            echo "version=$MAJOR_MINOR.$NEW_PATCH" >> $GITHUB_OUTPUT
+            NEW_VERSION="$MAJOR_MINOR.$NEW_PATCH"
+            echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
+            echo "Incrementing to version $NEW_VERSION"
           fi
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Set up JDK
         uses: actions/setup-java@v4
         with:
