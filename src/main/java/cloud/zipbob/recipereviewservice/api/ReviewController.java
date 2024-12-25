@@ -24,15 +24,15 @@ public class ReviewController {
         return Responder.success(response, HttpStatus.CREATED);
     }
 
-    @GetMapping("/recipe")
-    public ResponseEntity<GetReviewsResponse> getReviewsByRecipe(final @RequestBody GetReviewsByRecipeRequest request){
-        GetReviewsResponse response = reviewService.getReviewsByRecipe(request);
+    @GetMapping("/recipe/{recipeId}")
+    public ResponseEntity<GetReviewsResponse> getReviewsByRecipe(@PathVariable String recipeId){
+        GetReviewsResponse response = reviewService.getReviewsByRecipe(recipeId);
         return Responder.success(response);
     }
 
-    @GetMapping("/member")
-    public ResponseEntity<GetReviewsResponse> getReviewsByMember(final @RequestBody GetReviewsByMemberRequest request, @RequestHeader("X-Member-Id") Long authenticatedMemberId){
-        GetReviewsResponse response = reviewService.getReviewsByMember(request, authenticatedMemberId);
+    @GetMapping("/member/{memberId}")
+    public ResponseEntity<GetReviewsResponse> getReviewsByMember(@PathVariable Long memberId, @RequestHeader("X-Member-Id") Long authenticatedMemberId){
+        GetReviewsResponse response = reviewService.getReviewsByMember(memberId, authenticatedMemberId);
         return Responder.success(response);
     }
 
