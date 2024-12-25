@@ -7,9 +7,9 @@ import cloud.zipbob.recipereviewservice.domain.review.response.ReviewResponse;
 public interface ReviewService {
     ReviewResponse createReview(ReviewCreateRequest request, Long authenticatedMemberId);
 
-    GetReviewsResponse getReviewsByRecipe(GetReviewsByRecipeRequest request);
+    GetReviewsResponse getReviewsByRecipe(String recipeId);
 
-    GetReviewsResponse getReviewsByMember(GetReviewsByMemberRequest request, Long authenticatedMemberId);
+    GetReviewsResponse getReviewsByMember(Long memberId, Long authenticatedMemberId);
 
     void deleteReview(ReviewRequest request, Long authenticatedMemberId);
 

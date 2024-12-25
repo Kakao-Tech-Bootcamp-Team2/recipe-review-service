@@ -32,16 +32,16 @@ public class ReviewServiceImpl implements ReviewService{
     }
 
     @Override
-    public GetReviewsResponse getReviewsByRecipe(GetReviewsByRecipeRequest request) {
-        List<Review> reviews = reviewRepository.findByRecipeId(request.recipeId());
+    public GetReviewsResponse getReviewsByRecipe(String recipeId) {
+        List<Review> reviews = reviewRepository.findByRecipeId(recipeId);
         if(reviews.isEmpty()) {throw new ReviewException(ReviewExceptionType.REVIEW_NOT_FOUND_FOR_RECIPE);}
         return GetReviewsResponse.of(reviews);
     }
 
     @Override
-    public GetReviewsResponse getReviewsByMember(GetReviewsByMemberRequest request, Long authenticatedMemberId) {
-        validationMember(request.memberId(), authenticatedMemberId);
-        List<Review> reviews = reviewRepository.findByMemberId(request.memberId());
+    public GetReviewsResponse getReviewsByMember(Long memberId, Long authenticatedMemberId) {
+        validationMember(memberId, authenticatedMemberId);
+        List<Review> reviews = reviewRepository.findByMemberId(memberId);
         if(reviews.isEmpty()) {throw new ReviewException(ReviewExceptionType.REVIEW_NOT_FOUND_FOR_MEMBER);}
         return GetReviewsResponse.of(reviews);
     }
