@@ -1,0 +1,27 @@
+server:
+  port: 9002
+  tomcat:
+    connection-timeout: 2s
+    keep-alive-timeout: 15s
+    threads:
+      max: 50
+      min-spare: 5
+  shutdown: graceful
+
+spring:
+  application:
+    name: recipe-review-service
+  lifecycle:
+    timeout-per-shutdown-phase: 15s
+  cloud:
+    vault:
+      host: ${vault_host:localhost}
+      port: ${vault_port:8200}
+      scheme: http
+      authentication: token
+      token: ${vault_token}
+      kv:
+        backend: zipbob-secret
+        default-context: common-config
+        profiles: local
+        profile-separator: /
