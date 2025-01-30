@@ -17,6 +17,7 @@ Recipe Review Service는 Zipbob 프로젝트의 서비스 중 하나로, LLM이 
 ### 리뷰 생성
 ```json
 // POST /reviews
+//Request Body :
 {
   "memberId": 1,
   "recipeId": "recipe_6789032",
@@ -24,12 +25,24 @@ Recipe Review Service는 Zipbob 프로젝트의 서비스 중 하나로, LLM이 
   "rating": 4.5,
   "authorNickname": "covy"
 }
+
+//Response :
+//Status Code : 201 CREATED
+{
+  "reviewId": "67621bdc3ff6720bb5640b76",
+  "memberId": 1,
+  "recipeId": "recipe_6789032",
+  "createdDate": "2024-12-18T09:48:28.29847",
+  "updatedDate": "2024-12-18T09:48:28.29847"
+}
 ```
 
 ### 레시피별 리뷰 조회
 ```json
 // GET /reviews/recipe?recipeId=recipe_6789012
-Response:
+
+//Response :
+//Status Code : 200 OK
 {
   "reviews": [
     {
@@ -49,7 +62,8 @@ Response:
 ### 회원별 리뷰 조회
 ```json
 // GET /reviews/member?memberId=1
-Response:
+
+//Response :
 {
   "reviews": [
     {
@@ -69,21 +83,34 @@ Response:
 ### 리뷰 수정
 ```json
 // PATCH /reviews
-Request:
+//Request Body :
 {
   "reviewId": "67621bdc3ff6720bb5640b76",
   "content": "괜찮은 레시피입니다 ~!",
   "rating": 3.5
+}
+
+//Response :
+//Status Code : 200 OK
+{
+  "reviewId": "67621bdc3ff6720bb5640b76",
+  "memberId": 1,
+  "recipeId": "recipe_6789032",
+  "createdDate": "2024-12-18T09:48:28.298",
+  "updatedDate": "2024-12-18T09:55:01.426709"
 }
 ```
 
 ### 리뷰 삭제
 ```json
 // DELETE /reviews
-Request:
+//Request Body :
 {
   "reviewId": "67621bdc3ff6720bb5640b76"
 }
+
+//Response :
+//Status Code : 204 No Content
 ```
 
 ## 기술 스택
